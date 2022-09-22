@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = gameObject.AddComponent<CharacterController>();
         //   playerRigidBody = currentDraggableObject.GetComponent<Rigidbody>();
-
+       
     }
 
 

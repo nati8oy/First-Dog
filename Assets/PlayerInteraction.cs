@@ -31,6 +31,8 @@ public class PlayerInteraction : MonoBehaviour
     //reference to the player rigid body
     private Rigidbody playerRig;
     //play ray cast to see if the object in front of hit has been hit
+
+    private GameObject itemHolding;
     private RaycastHit hitObject;
     private  Rigidbody hitObjRig;
 
@@ -82,27 +84,41 @@ public class PlayerInteraction : MonoBehaviour
 
                 
                 hitObjRig = hitObject.transform.GetComponent<Rigidbody>();
-            //hitObjRig.isKinematic = false;
+            hitObjRig.isKinematic = true;
 
 
+            if (!itemHolding)
+            {
+                //store the game object hit by the raycast inside of an empty game object
+                itemHolding = hitObject.transform.gameObject;
 
-            hitObject.transform.parent = transform;
 
-            //hitObject.transform.position = new Vector3(holdObjX, gameObject.transform.position.y, gameObject.transform.position.y);
+                itemHolding.transform.position = transform.position + Direction;
 
-            hitObject.transform.position = new Vector3 (holdObjX, hitObject.transform.position.y, hitObject.transform.position.z) ;
+                itemHolding.transform.parent = transform;
 
-            //hitObjRig.transform.position = new Vector3(holdParent.transform.position.x, hitObjRig.transform.position.y, holdParent.transform.position.z);
+                //hitObject.transform.position = new Vector3(holdObjX, gameObject.transform.position.y, gameObject.transform.position.y);
 
-            //hitObject.transform.position = holdParent.transform.position;
+                if (controller.playerDirection == 1f)
+                {
+                    hitObject.transform.position = new Vector3(transform.position.x, hitObject.transform.position.y, hitObject.transform.position.z);
+
+                }
+
+                //hitObjRig.transform.position = new Vector3(holdParent.transform.position.x, hitObjRig.transform.position.y, holdParent.transform.position.z);
+
+                //hitObject.transform.position = holdParent.transform.position;
+            }
+
 
         }
 
         if (Input.GetKeyUp(KeyCode.Return))
         {
 
-            hitObject.transform.parent = null;
-            hitObjRig.isKinematic = true;
+            itemHolding.transform.parent = null;
+            itemHolding = null;
+            hitObjRig.isKinematic = false;
             //hitObject.transform.SetParent(gameObject.transform, true);
         }
 
